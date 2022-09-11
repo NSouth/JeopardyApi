@@ -2,7 +2,7 @@
   "profiles": {
     "JeopardyApi.AzFunc": {
       "commandName": "Project",
-      "commandLineArgs": "--port 7285",
+      "commandLineArgs": "--port 7045",
       "launchBrowser": false
     }
   }
