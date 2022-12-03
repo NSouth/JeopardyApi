@@ -25,7 +25,7 @@ namespace JeopardyApi.AzFunc.Funcitons
 
         [Function(nameof(GetQuestion))]
         public async Task<IActionResult> GetQuestion(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "questions/{questionId:guid}")] HttpRequestData req,
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "questions/{questionId:guid}")] HttpRequestData req,
             string questionId)
         {
             return new OkObjectResult(await _questionRepository.GetQuestionAsync(questionId).ConfigureAwait(false));
@@ -33,7 +33,7 @@ namespace JeopardyApi.AzFunc.Funcitons
 
         [Function(nameof(GetQuestions))]
         public async Task<IActionResult> GetQuestions(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "questions")] HttpRequestData req)
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "questions")] HttpRequestData req)
         {
             var queryParams = System.Web.HttpUtility.ParseQueryString(req.Url.Query);
 
@@ -50,7 +50,7 @@ namespace JeopardyApi.AzFunc.Funcitons
 
         [Function(nameof(GetRandomQuestion))]
         public async Task<IActionResult> GetRandomQuestion(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "questions/random")] HttpRequestData req)
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "questions/random")] HttpRequestData req)
         {
             return new OkObjectResult(await _questionRepository.GetRandomQuestionAsync().ConfigureAwait(false));
         }
