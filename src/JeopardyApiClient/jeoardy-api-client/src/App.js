@@ -18,7 +18,7 @@ function App() {
         >
           Learn React
         </a>
-        <div style={{'marginTop': '40px'}}>
+        <div style={{marginTop: '40px'}}>
           <LoadSampleQuestion />
         </div>
       </header>
