@@ -1,4 +1,9 @@
+.alef-card-container {
+    margin: 0 auto;
+    display: inline-block;
+}
 .alef-card {
     color: white;
     background-color: blue;
+    position: unset;
 }
