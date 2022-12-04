@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import Button from "./Button";
 import ApiUrlMaker from "../AppUtils.js"
 import AppConstants from '../AppConstants';
-import CardFlippable from 'react-card-flippable';
+import ReactCardFlip from 'react-card-flip';
 import './LoadSampleQuestion.css'
 
 function LoadSampleQuestion() {
@@ -11,9 +11,6 @@ function LoadSampleQuestion() {
     const [showQuestion,setShowQuestion] = useState(false);
     const apiUrl = ApiUrlMaker.MakeForQuestionById('a962f6d9-6d96-49f4-a260-82215a331030');
     
-    const cardFront = <div><h3>{answer}</h3></div>;
-    const cardBack = <div><h3>{question}</h3></div>;
-
     function loadData(){
         fetch(apiUrl, { headers: AppConstants.ApiAuthHeaders.QuestionById })
             .then((response) => response.json())
@@ -24,14 +21,29 @@ function LoadSampleQuestion() {
         
     }
 
+    function flipCard(){
+        setShowQuestion(!showQuestion);
+    }
+
     return <div>
         <Button title='Load Sample' onclick={loadData}/>
         <div style={{marginTop: '20px', visibility: question ? 'visible' : 'hidden'}}>
-            <CardFlippable frontContent={cardFront} backContent={cardBack} />
+            <ReactCardFlip isFlipped={showQuestion} containerClassName='question-card-container'>
+                <div key='front' onClick={flipCard} className='question-card-inner'>
+                    <div>
+                        <h3>{answer}</h3>   
+                    </div>             
+                    <Button title={`Flip to see Question`}/>
+                </div>
+                <div key='back' onClick={flipCard} className='question-card-inner'>
+                    <div>
+                        <h3>{question}</h3>
+                    </div>
+                    <Button title={`Flip to see Answer`}/>
+                </div>
+            </ReactCardFlip>
         </div>
-        <Button title={`Flip to see Answer`}/>
     </div>
 }
-
 
 export default LoadSampleQuestion;
