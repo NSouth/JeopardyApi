@@ -17,7 +17,7 @@ function LoadSampleQuestion(props) {
     }
 
 
-    return <div>
+    return <div style={{"margin-top": "20px"}}>
         <Button title='Load Sample' onclick={loadData}/>
         <p>{question}</p>
     </div>
