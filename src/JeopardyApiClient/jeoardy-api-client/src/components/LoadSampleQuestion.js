@@ -27,17 +27,17 @@ function LoadSampleQuestion() {
 
     return <div>
         <Button title='Load Sample' onclick={loadData}/>
-        <div style={{marginTop: '20px', visibility: question ? 'visible' : 'hidden'}}>
+        <div className={`mt-0 ${question ? 'visible' : 'invisible'}`} >
             <ReactCardFlip isFlipped={showQuestion} containerClassName='question-card-container'>
                 <div key='front' onClick={flipCard} className='question-card-inner'>
                     <div>
-                        <h3>{answer}</h3>   
+                        <h3 className="text-3xl">{answer}</h3>   
                     </div>             
                     <Button title={`Flip to see Question`}/>
                 </div>
                 <div key='back' onClick={flipCard} className='question-card-inner'>
                     <div>
-                        <h3>{question}</h3>
+                        <h3 className="text-3xl">{question}</h3>
                     </div>
                     <Button title={`Flip to see Answer`}/>
                 </div>
