@@ -1,3 +1,4 @@
+using JeopardyApi.AzFunc;
 using JeopardyApi.AzFunc.Interfaces;
 using JeopardyApi.AzFunc.Repositories;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,5 +14,7 @@ var host = new HostBuilder()
         services.AddScoped<IQuestionRepository>(_ => new QuestionRepository(new Microsoft.Azure.Cosmos.CosmosClient(accountEndpoint, authKeyOrResourceToken)));
     })
     .Build();
+
+Console.WriteLine(AppState.AllQuestionIds.First());
 
 host.Run();

@@ -59,48 +59,53 @@ namespace JeopardyApi.AzFunc.Repositories
             public int Value { get; set; }
         }
 
-        public async Task<Question> GetRandomQuestionAsync()
+        private static readonly Random random = new Random();
+
+        public Task<Question> GetRandomQuestionAsync()
         {
+            var randomIndex = random.Next(AppState.AllQuestionIds.Count);
+            var randomId = AppState.AllQuestionIds[randomIndex];
+            return GetQuestionAsync(randomId);
             // NEED TO FIX THIS. PERFORMANCE FOR SKIP/TAKE IS BAD!
-            var query = new QueryDefinition("SELECT COUNT(1) as 'Value' FROM c");
-            using var feedIterator = _container.GetItemQueryIterator<IntContainer>(query);
+//            var query = new QueryDefinition("SELECT COUNT(1) as 'Value' FROM c");
+//            using var feedIterator = _container.GetItemQueryIterator<IntContainer>(query);
 
-            var getCountResults = new List<int>();
-            while (feedIterator.HasMoreResults)
-            {
-                foreach (var item in await feedIterator.ReadNextAsync().ConfigureAwait(false))
-{
-                    {
-                        getCountResults.Add(item.Value);
-                    }
-                }
-            }
+//            var getCountResults = new List<int>();
+//            while (feedIterator.HasMoreResults)
+//            {
+//                foreach (var item in await feedIterator.ReadNextAsync().ConfigureAwait(false))
+//{
+//                    {
+//                        getCountResults.Add(item.Value);
+//                    }
+//                }
+//            }
 
-            var count = getCountResults.FirstOrDefault();
-            if (count == default)
-            {
-                count = 300000;
-            }
+//            var count = getCountResults.FirstOrDefault();
+//            if (count == default)
+//            {
+//                count = 300000;
+//            }
 
-            var randomIndex = Random.Shared.Next(0, count);
+//            var randomIndex = Random.Shared.Next(0, count);
 
-            var finalResults = new List<Question>();
-            using (var setIterator = _container.GetItemLinqQueryable<Question>()
-                .Skip(randomIndex)    
-                .Take(1).ToFeedIterator())
-            {
-                //Asynchronous query execution
-                while (setIterator.HasMoreResults)
-                {
-                    foreach (var item in await setIterator.ReadNextAsync().ConfigureAwait(false))
-                    {
-                        {
-                            finalResults.Add(item);
-                        }
-                    }
-                }
-            }
-            return finalResults.First();
+//            var finalResults = new List<Question>();
+//            using (var setIterator = _container.GetItemLinqQueryable<Question>()
+//                .Skip(randomIndex)    
+//                .Take(1).ToFeedIterator())
+//            {
+//                //Asynchronous query execution
+//                while (setIterator.HasMoreResults)
+//                {
+//                    foreach (var item in await setIterator.ReadNextAsync().ConfigureAwait(false))
+//                    {
+//                        {
+//                            finalResults.Add(item);
+//                        }
+//                    }
+//                }
+//            }
+//            return finalResults.First();
         }
 
         public IQueryable<Question> GetQuestionsQueryable()
