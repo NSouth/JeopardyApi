@@ -48,6 +48,26 @@ namespace JeopardyApi.AzFunc.Funcitons
             return new OkObjectResult(await _questionRepository.ExecuteQuestionsQueryableAsync(query).ConfigureAwait(false));
         }
 
+        [Function(nameof(GetCategories))]
+        public async Task<IActionResult> GetCategories(
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "questions/categories")] HttpRequestData req)
+        {
+            var queryParams = System.Web.HttpUtility.ParseQueryString(req.Url.Query);
+
+            var containsText = queryParams["contains"];
+            if (string.IsNullOrWhiteSpace(containsText))
+            {
+                return new BadRequestResult();
+            }
+
+            var query = _questionRepository.GetQuestionsQueryable(maxItemCount: 100);            
+            var categoryQuery = query.Where(q => q.category.Contains(containsText, StringComparison.OrdinalIgnoreCase))
+                .Select(q => q.category)
+                .Distinct();
+
+            return new OkObjectResult(await _questionRepository.ExecuteQuestionsQueryableAsync(categoryQuery, maxResults: 100).ConfigureAwait(false));
+        }
+
         [Function(nameof(GetRandomQuestion))]
         public async Task<IActionResult> GetRandomQuestion(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = "questions/random")] HttpRequestData req)

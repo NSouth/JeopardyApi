@@ -25,9 +25,9 @@ namespace JeopardyApi.AzFunc.Repositories
             _container = cosmosClient.GetContainer(DatabaseName, QuestionsContainerName);
         }
 
-        public async Task<IList<Question>> ExecuteQuestionsQueryableAsync(IQueryable<Question> query, int maxResults = 10)
+        public async Task<IList<T>> ExecuteQuestionsQueryableAsync<T>(IQueryable<T> query, int maxResults = 10)
         {
-            var results = new List<Question>();
+            var results = new List<T>();
             using (var setIterator = query.Take(maxResults).ToFeedIterator())
             {
                 //Asynchronous query execution
@@ -108,9 +108,14 @@ namespace JeopardyApi.AzFunc.Repositories
 //            return finalResults.First();
         }
 
-        public IQueryable<Question> GetQuestionsQueryable()
+        public IQueryable<Question> GetQuestionsQueryable(int? maxItemCount = null)
         {
-            return _container.GetItemLinqQueryable<Question>();
+            QueryRequestOptions? options = null;
+            if (maxItemCount.HasValue)
+            {
+                options = new QueryRequestOptions { MaxItemCount = maxItemCount };
+            }
+            return _container.GetItemLinqQueryable<Question>(requestOptions: options);
         }
     }
 }

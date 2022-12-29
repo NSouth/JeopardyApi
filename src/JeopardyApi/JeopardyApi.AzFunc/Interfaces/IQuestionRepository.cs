@@ -10,8 +10,8 @@ namespace JeopardyApi.AzFunc.Interfaces
     public interface IQuestionRepository
     {
         public Task<Question> GetQuestionAsync(string questionId);
-        public IQueryable<Question> GetQuestionsQueryable();
-        public Task<IList<Question>> ExecuteQuestionsQueryableAsync(IQueryable<Question> query, int maxResults = 10);
+        public IQueryable<Question> GetQuestionsQueryable(int? maxItemCount = null);
+        public Task<IList<T>> ExecuteQuestionsQueryableAsync<T>(IQueryable<T> query, int maxResults = 10);
         Task<Question> GetRandomQuestionAsync();
     }
 }
