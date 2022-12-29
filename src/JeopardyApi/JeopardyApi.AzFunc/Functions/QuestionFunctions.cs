@@ -59,18 +59,29 @@ namespace JeopardyApi.AzFunc.Funcitons
         {
             var queryParams = System.Web.HttpUtility.ParseQueryString(req.Url.Query);
 
+            int maxItemCount = 100;
             var containsText = queryParams["contains"];
             if (string.IsNullOrWhiteSpace(containsText))
             {
-                return new BadRequestResult();
+                maxItemCount = 10;
+            }
+            var query = _questionRepository.GetQuestionsQueryable(maxItemCount: maxItemCount);
+            IQueryable<string> ? categoryQuery = null;
+            if (string.IsNullOrWhiteSpace(containsText))
+            {
+                categoryQuery = query
+                    .Select(q => q.category)
+                    .OrderBy(q => q)
+                    .Distinct();
+            }
+            else
+            {
+                categoryQuery = query.Where(q => q.category.Contains(containsText, StringComparison.OrdinalIgnoreCase))
+                    .Select(q => q.category)
+                    .Distinct();
             }
 
-            var query = _questionRepository.GetQuestionsQueryable(maxItemCount: 100);            
-            var categoryQuery = query.Where(q => q.category.Contains(containsText, StringComparison.OrdinalIgnoreCase))
-                .Select(q => q.category)
-                .Distinct();
-
-            return new OkObjectResult(await _questionRepository.ExecuteQuestionsQueryableAsync(categoryQuery, maxResults: 100).ConfigureAwait(false));
+            return new OkObjectResult(await _questionRepository.ExecuteQuestionsQueryableAsync(categoryQuery, maxResults: maxItemCount).ConfigureAwait(false));
         }
 
         [Function(nameof(GetRandomQuestion))]
