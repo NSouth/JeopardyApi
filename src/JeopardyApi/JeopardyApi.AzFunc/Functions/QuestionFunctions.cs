@@ -38,11 +38,16 @@ namespace JeopardyApi.AzFunc.Funcitons
             var queryParams = System.Web.HttpUtility.ParseQueryString(req.Url.Query);
 
             var containsText = queryParams["contains"];
+            var categoryText = queryParams["category"];
 
             var query = _questionRepository.GetQuestionsQueryable();
             if (containsText != null)
             {
                 query = query.Where(q => q.question.Contains(containsText, StringComparison.OrdinalIgnoreCase));
+            }
+            if (categoryText != null)
+            {
+                query = query.Where(q => q.category.Equals(categoryText, StringComparison.OrdinalIgnoreCase));
             }
 
             return new OkObjectResult(await _questionRepository.ExecuteQuestionsQueryableAsync(query).ConfigureAwait(false));
