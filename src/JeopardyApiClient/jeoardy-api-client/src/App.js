@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import LoadSampleQuestion from './components/LoadSampleQuestion';
+import GameArea from './components/GameArea';
 
 function App() {
   return (
@@ -9,7 +10,7 @@ function App() {
         <h1>Jeopardy</h1>
       </header>
       <div style={{marginTop: '40px'}}>
-        <LoadSampleQuestion />
+        <GameArea />
       </div>
     </div>
   );
