@@ -63,7 +63,7 @@ namespace JeopardyApi.AzFunc.Funcitons
             var containsText = queryParams["contains"];
             if (string.IsNullOrWhiteSpace(containsText))
             {
-                maxItemCount = 10;
+                maxItemCount = 100;
             }
             var query = _questionRepository.GetQuestionsQueryable(maxItemCount: maxItemCount);
             IQueryable<string> ? categoryQuery = null;
