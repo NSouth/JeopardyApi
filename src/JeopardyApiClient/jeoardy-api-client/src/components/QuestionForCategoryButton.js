@@ -15,8 +15,6 @@ function QuestionForCategoryButton({category, onResult}) {
             .then((data) => {
                 setCurQuestions(data.Value);
                 onResult(curQuestions);
-                // setCurrentQuestion(data.Value.question);
-                // setCurrentAnswer(data.Value.answer);
             });
         
     }

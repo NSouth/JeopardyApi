@@ -8,14 +8,10 @@ import AppConstants from '../AppConstants';
 
 function ScoredGameArea() {
     const [currentQuestion, setCurrentQuestion] = useState('');
-    const [currentAnswer, setCurrentAnswer] = useState('');
-    const [currentCategory, setCurrentCategory] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('');
         
-    function handleQuestionResult(question, answer, category){
+    function handleQuestionResult(question){
         setCurrentQuestion(question);
-        setCurrentAnswer(answer);
-        setCurrentCategory(category);
     }
 
     function handleCategorySelect(val){
@@ -29,10 +25,8 @@ function ScoredGameArea() {
             fetch(apiUrl, { headers: AppConstants.ApiAuthHeaders.Questions })
                 .then((response) => response.json())
                 .then((data) => {
-                    var item = data.Value.find(x => true);
-                    setCurrentQuestion(item?.question);
-                    setCurrentAnswer(item?.answer);
-                    setCurrentCategory(item?.category);
+                    var item = data.Value.find(x => true); // first or default
+                    setCurrentQuestion(item);
                 }
             );
         }
@@ -43,9 +37,7 @@ function ScoredGameArea() {
                 .then((response) => response.json())
                 .then((data) => {
                     var item = data.Value;
-                    setCurrentQuestion(item?.question);
-                    setCurrentAnswer(item?.answer);
-                    setCurrentCategory(item?.category);
+                    setCurrentQuestion(item);
                 }
             );
         }
@@ -58,7 +50,7 @@ function ScoredGameArea() {
         <CategorySelect onCategorySelect={handleCategorySelect}/>
         <br /><br />
         <Button title='Get Question' onclick={loadQuestion}/>
-        <QuestionCard question={currentQuestion} answer={currentAnswer} category={currentCategory} />
+        <QuestionCard questionObj={currentQuestion} />
     </div>
 }
 

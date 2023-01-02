@@ -13,9 +13,7 @@ function RandomQuestionButton({onResult}) {
         fetch(apiUrl, { headers: AppConstants.ApiAuthHeaders.RandomQuestion })
             .then((response) => response.json())
             .then((data) => {
-                onResult(data.Value.question, data.Value.answer, data.Value.category);
-                // setCurrentQuestion(data.Value.question);
-                // setCurrentAnswer(data.Value.answer);
+                onResult(data.Value);
             });
         
     }
