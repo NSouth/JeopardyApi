@@ -37,24 +37,6 @@ function CategorySelect({onCategorySelect}) {
         getOptions={getCategoryOptions}
         debounce={200}
         name="category" placeholder="Type for a category (optional)" search onChange={categoryChangeHandler} />
-        {/* <input Value={input} />
-        <Button title='Load Sample' onclick={loadData}/>
-        <div className={`mt-0 ${question ? 'visible' : 'invisible'}`} >
-            <ReactCardFlip isFlipped={showQuestion} containerClassName='question-card-container'>
-                <div key='front' onClick={flipCard} className='question-card-inner'>
-                    <div>
-                        <h3 className="text-xl m-1">{sanitizeText(answer)}</h3>   
-                    </div>             
-                    <Button title={`Flip to see Question`}/>
-                </div>
-                <div key='back' onClick={flipCard} className='question-card-inner'>
-                    <div>
-                        <h3 className="text-xl m-1">{sanitizeText(question)}</h3>
-                    </div>
-                    <Button title={`Flip to see Answer`}/>
-                </div>
-            </ReactCardFlip>
-        </div> */}
     </div>
 }
 

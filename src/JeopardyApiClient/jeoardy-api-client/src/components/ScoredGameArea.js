@@ -3,22 +3,23 @@ import Button from "./Button";
 import ApiUrlMaker from "../AppUtils.js"
 import './LoadSampleQuestion.css'
 import QuestionCard from './QuestionCard';
+import UserGuess from './UserGuess';
 import CategorySelect from './CategorySelect';
 import AppConstants from '../AppConstants';
+
 
 function ScoredGameArea() {
     const [currentQuestion, setCurrentQuestion] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('');
+    const [showQuestionSide, setShowQuestionSide] = useState(false);
+    const [guessResultDisplay, setGuessResultDisplay] = useState(<p> &nbsp</p>);
         
-    function handleQuestionResult(question){
-        setCurrentQuestion(question);
-    }
-
     function handleCategorySelect(val){
         setSelectedCategory(val);
     }
 
     function loadQuestion() {
+        setCurrentQuestion(null);
         if (selectedCategory) {
             const apiUrl = ApiUrlMaker.MakeForQuestionsByCategory(selectedCategory);
         
@@ -41,6 +42,18 @@ function ScoredGameArea() {
                 }
             );
         }
+
+        //Reset UI
+        setGuessResultDisplay(null);
+        setShowQuestionSide(false);
+    }
+
+    function onGuess(result){
+        console.log('result: ' + result);
+        const newGuessResultDisplay = result 
+            ? <p className="text-green-600">Correct!</p>
+            : <p className="text-red-600">Try again</p>;
+        setGuessResultDisplay(newGuessResultDisplay);
     }
 
     return <div>
@@ -50,7 +63,12 @@ function ScoredGameArea() {
         <CategorySelect onCategorySelect={handleCategorySelect}/>
         <br /><br />
         <Button title='Get Question' onclick={loadQuestion}/>
-        <QuestionCard questionObj={currentQuestion} />
+        <QuestionCard questionObj={currentQuestion} initialShowQuestionSide={showQuestionSide} key={new Date().getTime()}/>
+        <div className={currentQuestion ? '' : 'invisible'}> 
+            {guessResultDisplay}
+            <UserGuess expectedText={currentQuestion?.question} onResult={onGuess} />
+        </div>        
+        
     </div>
 }
 
