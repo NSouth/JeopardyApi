@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Button from "./Button";
 import ApiUrlMaker from "../AppUtils.js"
 import './LoadSampleQuestion.css'
@@ -26,15 +26,16 @@ function ScoredGameArea() {
     }
 
     function loadQuestion() {
-        setCurrentQuestion(null);
         if (selectedCategory) {
             if (categoryQuestions.length > 0){
                 if (categoryQuestionIndex < categoryQuestions.length - 1){
-                    setCategoryQuestionIndex(categoryQuestionIndex + 1);
-                    setCurrentQuestion(categoryQuestions[categoryQuestionIndex]);
+                    const newIndex = categoryQuestionIndex + 1;
+                    setCategoryQuestionIndex(newIndex);
+                    setCurrentQuestion(categoryQuestions[newIndex]);
                 }
                 else {
-                    setGuessResultDisplay(<p className="text-orange-700">No more questions in this category!</p>);                    
+                    setAcceptGuesses(false);
+                    return;
                 }
             } else {
                 const apiUrl = ApiUrlMaker.MakeForQuestionsByCategory(selectedCategory);
@@ -43,7 +44,7 @@ function ScoredGameArea() {
                     .then((response) => response.json())
                     .then((data) => {
                         setCategoryQuestions(data.Value);
-                        setCurrentQuestion(categoryQuestions[0]);
+                        setCurrentQuestion(data.Value[0]);
                     }
                 );
             }
@@ -81,13 +82,19 @@ function ScoredGameArea() {
         setAcceptGuesses(false);
     }
 
+    useEffect(() => loadQuestion(), []); // empty array ensures useEffect only runs once
+
     return <div>
-        <h1 className="text-4xl mb-4">Test yourself!</h1>
+        <h1 className="text-3xl">Welcome to the Jeopardy collection</h1>
+        <h3>Explore a collection of Jeopardy questions and answers!</h3>
         <label className="text-left">Category (optional)</label>
         <br />
         <CategorySelect onCategorySelect={handleCategorySelect}/>
         <br /><br />
-        <Button title='Get Question' onclick={loadQuestion}/>
+        <Button title='Load Another' onclick={loadQuestion}/>
+        <div className={categoryQuestions.length > 0 && categoryQuestionIndex >= categoryQuestions.length - 1 ? '' : 'invisible'}> 
+            <p className="text-orange-700">No more questions available in this category</p>
+        </div> 
         <QuestionCard questionObj={currentQuestion} initialShowQuestionSide={showQuestionSide} key={new Date().getTime()}/>
         <div className={currentQuestion ? '' : 'invisible'}> 
             {guessResultDisplay ?? <br />}

@@ -7,6 +7,17 @@
   pointer-events: none;
 }
 
+@font-face {
+  font-family: 'JeopardyFont';
+  src: url(./fonts/gyparody.ttf) format('truetype');
+}
+
+html .jeopardy-font {
+  font-family: JeopardyFont;
+  color: #FFCC00;
+  font-size: 34px;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
@@ -14,8 +25,8 @@
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 20vh;
+  background-color: darkblue;
+  min-height: 15vh;
   display: flex;
   flex-direction: column;
   align-items: center;

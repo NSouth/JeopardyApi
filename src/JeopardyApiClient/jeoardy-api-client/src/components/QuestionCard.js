@@ -20,8 +20,8 @@ function QuestionCard({questionObj, initialShowQuestionSide}) {
         <div className={`mt-0`} >
             <ReactCardFlip isFlipped={showQuestionSide} containerClassName='question-card-container'>
                 <div key='front' onClick={flipCard} className='question-card-inner'>
-                <p className="absolute left-1 text-xs">{questionObj?.category}</p>
-                <p className="absolute right-1 text-xs">{questionObj ? `$${questionObj.value}` : ''}</p>
+                <p className="absolute left-1 text-xs">{sanitizeText(questionObj?.category)}</p>
+                <p className="absolute right-1 text-xs">{questionObj ? `$${sanitizeText(questionObj.value.toString())}` : ''}</p>
                     <div>
                         <h3 className="text-xl m-1">{sanitizeText(questionObj?.answer)}</h3>   
                     </div>             
