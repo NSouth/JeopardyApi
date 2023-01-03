@@ -1,21 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
-import LoadSampleQuestion from './components/LoadSampleQuestion';
-import GameArea from './components/GameArea';
-import './index.css';
-import ScoredGameArea from './components/ScoredGameArea';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Layout from "./pages/Layout";
+import Home from "./pages/Home";
+import About from "./pages/About";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1 className='jeopardy-font'>Jeopardy Fun!</h1>
-      </header>
-      <div style={{marginTop: '20px'}}>
-        <ScoredGameArea />
-        <GameArea />
-      </div>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="about" element={<About />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
