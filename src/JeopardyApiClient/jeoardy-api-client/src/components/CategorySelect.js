@@ -2,7 +2,6 @@ import React from 'react';
 import ApiUrlMaker from "../AppUtils.js"
 import AppConstants from '../AppConstants';
 import 'react-select-search/style.css'
-import './LoadSampleQuestion.css'
 import AsyncSelect, { useAsync } from 'react-select/async';
 
 function CategorySelect({onCategorySelect}) {

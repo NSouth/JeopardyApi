@@ -1,10 +1,6 @@
 import React, {useState} from 'react';
 import Button from "./Button";
-import ApiUrlMaker from "../AppUtils.js"
-import AppConstants from '../AppConstants';
-import SelectSearch from 'react-select-search';
 import 'react-select-search/style.css'
-import './LoadSampleQuestion.css'
 
 function UserGuess({expectedText, onResult}) {
 

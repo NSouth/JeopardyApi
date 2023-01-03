@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import Button from "./Button";
 import ReactCardFlip from 'react-card-flip';
-import './LoadSampleQuestion.css'
+import './QuestionCard.css'
 
 function QuestionCard({questionObj, initialShowQuestionSide}) {
     // const [question, setQuestion] = useState(questionParam);
