@@ -4,7 +4,6 @@ import GameArea from "../components/GameArea";
 function Home(){
     return <>
         <ScoredGameArea />
-        <GameArea />
     </>
 }
 

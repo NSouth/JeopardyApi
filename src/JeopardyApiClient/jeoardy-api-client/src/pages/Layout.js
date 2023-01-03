@@ -6,7 +6,7 @@ import '../index.css';
 function Layout() {
   return (
     <div className="flex">
-    <Sidebar>
+    <Sidebar breakPoint="sm">
         <Menu>
             <MenuItem routerLink={<Link to="/" />}> Home</MenuItem>
             <MenuItem routerLink={<Link to="/about" />}> About</MenuItem>
@@ -15,7 +15,7 @@ function Layout() {
     <main className="w-full">
         <div className="App">
         <header className="App-header">
-            <h1 className='jeopardy-font'>Jeopardy Fun!</h1>
+            <h1 className='jeopardy-font'>Jeopardy Clues!</h1>
         </header>
         <div style={{marginTop: '20px'}}>
             <Outlet />

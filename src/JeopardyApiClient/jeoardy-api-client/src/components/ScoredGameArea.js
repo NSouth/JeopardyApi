@@ -85,15 +85,15 @@ function ScoredGameArea() {
     useEffect(() => loadQuestion(), []); // empty array ensures useEffect only runs once
 
     return <div>
-        <h1 className="text-3xl">Welcome to the Jeopardy collection</h1>
-        <h3>Explore a collection of Jeopardy questions and answers!</h3>
+        <h1 className="text-3xl">Welcome to the Jeopardy clue collection</h1>
+        <h3>Test yourself or simply browse the collection. Enjoy!</h3>
         <label className="text-left">Category (optional)</label>
         <br />
         <CategorySelect onCategorySelect={handleCategorySelect}/>
         <br /><br />
-        <Button title='Load Another' onclick={loadQuestion}/>
+        <Button title='Load Another Clue' onclick={loadQuestion}/>
         <div className={categoryQuestions.length > 0 && categoryQuestionIndex >= categoryQuestions.length - 1 ? '' : 'invisible'}> 
-            <p className="text-orange-700">No more questions available in this category</p>
+            <p className="text-orange-700">No more clues available in this category</p>
         </div> 
         <QuestionCard questionObj={currentQuestion} initialShowQuestionSide={showQuestionSide} key={new Date().getTime()}/>
         <div className={currentQuestion ? '' : 'invisible'}> 
@@ -101,7 +101,7 @@ function ScoredGameArea() {
             <p>Score: {numCorrect} of {numAttempts}</p>
             <UserGuess expectedText={currentQuestion?.question} onResult={onGuess} />
         </div>        
-
+        <br />
         
     </div>
 }
