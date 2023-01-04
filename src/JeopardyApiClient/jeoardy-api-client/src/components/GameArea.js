@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import Button from "./Button";
-import ApiUrlMaker from "../AppUtils.js"
 import QuestionCard from './QuestionCard';
 import UserGuess from './UserGuess';
 import CategorySelect from './CategorySelect';
-import AppConstants from '../AppConstants';
+import JeopardyApi from '../services/JeopardyApi';
 
 
 function ScoredGameArea() {
@@ -17,6 +16,8 @@ function ScoredGameArea() {
     const [acceptGuesses, setAcceptGuesses] = useState(true);
     const [categoryQuestions, setCategoryQuestions] = useState([]);
     const [categoryQuestionIndex, setCategoryQuestionIndex] = useState(0);
+    
+    useEffect(() => loadQuestion(), []); // empty array ensures useEffect only runs once
         
     function handleCategorySelect(val){
         setSelectedCategory(val);
@@ -37,28 +38,15 @@ function ScoredGameArea() {
                     return;
                 }
             } else {
-                const apiUrl = ApiUrlMaker.MakeForQuestionsByCategory(selectedCategory);
-            
-                fetch(apiUrl, { headers: AppConstants.ApiAuthHeaders.Questions })
-                    .then((response) => response.json())
-                    .then((data) => {
-                        setCategoryQuestions(data.Value);
-                        setCurrentQuestion(data.Value[0]);
-                    }
-                );
+                JeopardyApi.getQuestionsForCategory(selectedCategory, data => {
+                    setCategoryQuestions(data);
+                    setCurrentQuestion(data[0]);
+                });
             }
 
         }
         else {
-            const apiUrl = ApiUrlMaker.RandomQuestion;
-        
-            fetch(apiUrl, { headers: AppConstants.ApiAuthHeaders.RandomQuestion })
-                .then((response) => response.json())
-                .then((data) => {
-                    var item = data.Value;
-                    setCurrentQuestion(item);
-                }
-            );
+            JeopardyApi.getRandomQuestion(item => setCurrentQuestion(item));
         }
 
         //Reset UI
@@ -81,7 +69,6 @@ function ScoredGameArea() {
         setAcceptGuesses(false);
     }
 
-    useEffect(() => loadQuestion(), []); // empty array ensures useEffect only runs once
 
     return <div>
         <h1 className="text-3xl">Welcome to the Jeopardy clue collection</h1>

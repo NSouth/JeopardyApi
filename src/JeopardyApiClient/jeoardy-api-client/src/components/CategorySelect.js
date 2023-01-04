@@ -1,8 +1,7 @@
 import React from 'react';
-import ApiUrlMaker from "../AppUtils.js"
-import AppConstants from '../AppConstants';
 import 'react-select-search/style.css'
 import AsyncSelect, { useAsync } from 'react-select/async';
+import JeopardyApi from '../services/JeopardyApi';
 
 function CategorySelect({onCategorySelect}) {
 
@@ -14,12 +13,10 @@ function CategorySelect({onCategorySelect}) {
     }    
 
     function loadOptions (inputValue, callback) {
-        fetch(ApiUrlMaker.MakeForCategorySearch(inputValue), { headers: AppConstants.ApiAuthHeaders.Categories })
-            .then((response) => response.json())
-            .then((data) => {
-                const curOptions = data.Value.map(x => ({ value: x, label: x }));
-                callback(curOptions);
-            });
+        JeopardyApi.searchCategories(inputValue, data => {
+            const curOptions = data.map(x => ({ value: x, label: x }));
+            callback(curOptions);
+        });
       };
 
     return <AsyncSelect className="inline-block w-72 mt-2" 
