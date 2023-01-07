@@ -8,13 +8,13 @@
 }
 
 @font-face {
-  font-family: 'JeopardyFont';
-  src: url(./fonts/gyparody.ttf) format('truetype');
+  font-family: "JeopardyFont";
+  src: url(./fonts/gyparody.ttf) format("truetype");
 }
 
 html .jeopardy-font {
   font-family: JeopardyFont;
-  color: #FFCC00;
+  color: #ffcc00;
   font-size: 34px;
 }
 

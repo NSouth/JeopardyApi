@@ -1,31 +1,31 @@
 .alef-card-container {
-    margin: 0 auto;
-    display: inline-block;
+  margin: 0 auto;
+  display: inline-block;
 }
 .alef-card {
-    color: white;
-    background-color: blue;
-    position: unset;
+  color: white;
+  background-color: blue;
+  position: unset;
 }
 
 .question-card-container {
-    height: 260px;
-    width: 230px;
-    color: white;
-    margin: 0 auto;
-    cursor: pointer;
+  height: 260px;
+  width: 230px;
+  color: white;
+  margin: 0 auto;
+  cursor: pointer;
 }
 
-.question-card-inner {    
-    height: 100%;
-    background-color: darkblue;
-    width: 100%
+.question-card-inner {
+  height: 100%;
+  background-color: darkblue;
+  width: 100%;
 }
 
-.question-card-inner div {    
-    margin-top: 16px;
-    height: 200px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.question-card-inner div {
+  margin-top: 16px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
