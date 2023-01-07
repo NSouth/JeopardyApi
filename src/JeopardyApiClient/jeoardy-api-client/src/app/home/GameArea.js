@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import Button from "./Button";
-import QuestionCard from "./QuestionCard";
-import UserGuess from "./UserGuess";
-import CategorySelect from "./CategorySelect";
-import JeopardyApi from "../services/JeopardyApi";
+import Button from "../../components/Button";
+import QuestionCard from "../../components/QuestionCard";
+import UserGuess from "../../components/UserGuess";
+import CategorySelect from "../../components/CategorySelect";
+import JeopardyApi from "../../services/JeopardyApi";
 
-function ScoredGameArea() {
+function GameArea() {
   const [currentQuestion, setCurrentQuestion] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [showQuestionSide, setShowQuestionSide] = useState(false);
@@ -109,4 +109,4 @@ function ScoredGameArea() {
   );
 }
 
-export default ScoredGameArea;
+export default GameArea;

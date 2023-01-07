@@ -1,5 +1,5 @@
-import ApiUrlMaker from "../AppUtils.js";
-import AppConstants from "../AppConstants";
+import ApiUrlMaker from "../utils/AppUtils.js";
+import AppConstants from "../utils/AppConstants";
 
 const JeopardyApi = {
   getQuestionsForCategory: (category, callback) => {
