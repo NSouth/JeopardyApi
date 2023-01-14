@@ -1,8 +1,8 @@
-function Button({ title, onclick }) {
+function Button({ title, ...otherProps }) {
   return (
     <button
       className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent to-blue-600"
-      onClick={onclick}
+      {...otherProps}
     >
       {title}
     </button>

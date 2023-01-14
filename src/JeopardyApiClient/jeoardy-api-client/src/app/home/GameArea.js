@@ -77,7 +77,7 @@ function GameArea() {
       <CategorySelect onCategorySelect={handleCategorySelect} />
       <br />
       <br />
-      <Button title="Load Another Clue" onclick={loadQuestion} />
+      <Button title="Load Another Clue" onClick={loadQuestion} />
       <div
         className={
           categoryQuestions.length > 0 &&
