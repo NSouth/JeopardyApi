@@ -3,13 +3,7 @@ import Button from "./Button";
 import ReactCardFlip from "react-card-flip";
 import "./QuestionCard.css";
 
-function QuestionCard({ questionObj, initialShowQuestionSide }) {
-  // const [question, setQuestion] = useState(questionParam);
-  // const [answer,setAnswer] = useState(answerParam);
-  const [showQuestionSide, setShowQuestionSide] = useState(
-    initialShowQuestionSide ?? false
-  );
-
+function QuestionCard({ questionObj, showQuestionSide, setShowQuestionSide }) {
   function flipCard() {
     setShowQuestionSide(!showQuestionSide);
   }

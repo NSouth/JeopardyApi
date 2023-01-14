@@ -6,10 +6,12 @@ import CategorySelect from "../../components/CategorySelect";
 import JeopardyApi from "../../services/JeopardyApi";
 
 function GameArea() {
-  const [currentQuestion, setCurrentQuestion] = useState("");
+  const [currentQuestion, setCurrentQuestion] = useState();
   const [selectedCategory, setSelectedCategory] = useState("");
   const [showQuestionSide, setShowQuestionSide] = useState(false);
-  const [guessResultDisplay, setGuessResultDisplay] = useState(<p> &nbsp</p>);
+  const [hasCurGuess, setHasCurGuess] = useState(false);
+  const [curGuess, setCurGuess] = useState("");
+  const [curGuessCorrect, setCurGuessCorrect] = useState();
   const [numCorrect, setNumCorrect] = useState(0);
   const [numAttempts, setNumAttempts] = useState(0);
   const [acceptGuesses, setAcceptGuesses] = useState(true);
@@ -46,24 +48,23 @@ function GameArea() {
     }
 
     //Reset UI
-    setGuessResultDisplay(null);
+    setHasCurGuess(false);
+    setCurGuessCorrect(false);
     setAcceptGuesses(true);
     setShowQuestionSide(false);
+    setCurGuess("");
   }
 
-  function onGuess(result) {
+  function onGuess(guessText) {
     if (!acceptGuesses) {
       return;
     }
-    console.log("result: " + result);
-    const newGuessResultDisplay = result ? (
-      <p className="text-green-600">Correct!</p>
-    ) : (
-      <p className="text-red-600">Try again</p>
-    );
+    const guessCorrect =
+      guessText.toLowerCase() === currentQuestion?.question.toLowerCase();
+    setHasCurGuess(true);
+    setCurGuessCorrect(guessCorrect);
     setNumAttempts(numAttempts + 1);
-    setNumCorrect(numCorrect + (result ? 1 : 0));
-    setGuessResultDisplay(newGuessResultDisplay);
+    setNumCorrect(numCorrect + (guessCorrect ? 1 : 0));
     setAcceptGuesses(false);
   }
 
@@ -91,17 +92,26 @@ function GameArea() {
       </div>
       <QuestionCard
         questionObj={currentQuestion}
-        initialShowQuestionSide={showQuestionSide}
-        key={new Date().getTime()}
+        showQuestionSide={showQuestionSide}
+        setShowQuestionSide={(val) => setShowQuestionSide(val)}
       />
       <div className={currentQuestion ? "" : "invisible"}>
-        {guessResultDisplay ?? <br />}
+        {hasCurGuess ? (
+          curGuessCorrect ? (
+            <p className="text-green-600">Correct!</p>
+          ) : (
+            <p className="text-red-600">Try again</p>
+          )
+        ) : (
+          <br />
+        )}
         <p>
           Score: {numCorrect} of {numAttempts}
         </p>
         <UserGuess
-          expectedText={currentQuestion?.question}
-          onResult={onGuess}
+          onSubmit={onGuess}
+          value={curGuess}
+          onValueChange={(val) => setCurGuess(val)}
         />
       </div>
       <br />
