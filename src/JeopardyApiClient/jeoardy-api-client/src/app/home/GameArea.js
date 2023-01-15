@@ -3,10 +3,10 @@ import Button from "../../components/Button";
 import QuestionCard from "../../components/QuestionCard";
 import UserGuess from "../../components/UserGuess";
 import CategorySelect from "../../components/CategorySelect";
-import JeopardyApi from "../../services/JeopardyApi";
+import { getCluesForCategory, getRandomClue } from "../../services/JeopardyApi";
 
 function GameArea() {
-  const [currentQuestion, setCurrentQuestion] = useState();
+  const [currentClue, setCurrentClue] = useState();
   const [selectedCategory, setSelectedCategory] = useState("");
   const [showQuestionSide, setShowQuestionSide] = useState(false);
   const [hasCurGuess, setHasCurGuess] = useState(false);
@@ -15,36 +15,39 @@ function GameArea() {
   const [numCorrect, setNumCorrect] = useState(0);
   const [numAttempts, setNumAttempts] = useState(0);
   const [acceptGuesses, setAcceptGuesses] = useState(true);
-  const [categoryQuestions, setCategoryQuestions] = useState([]);
-  const [categoryQuestionIndex, setCategoryQuestionIndex] = useState(0);
+  const [categoryClues, setCategoryClues] = useState([]);
+  const [categoryClueIndex, setCategoryClueIndex] = useState(0);
 
-  useEffect(() => loadQuestion(), []); // empty array ensures useEffect only runs once
+  useEffect(() => {
+    const doLoadClue = async () => await loadClue();
+    doLoadClue();
+  }, []); // empty array ensures useEffect only runs once
 
   function handleCategorySelect(val) {
     setSelectedCategory(val);
-    setCategoryQuestions([]);
-    setCategoryQuestionIndex(0);
+    setCategoryClues([]);
+    setCategoryClueIndex(0);
   }
 
-  function loadQuestion() {
+  async function loadClue() {
     if (selectedCategory) {
-      if (categoryQuestions.length > 0) {
-        if (categoryQuestionIndex < categoryQuestions.length - 1) {
-          const newIndex = categoryQuestionIndex + 1;
-          setCategoryQuestionIndex(newIndex);
-          setCurrentQuestion(categoryQuestions[newIndex]);
+      if (categoryClues.length > 0) {
+        if (categoryClueIndex < categoryClues.length - 1) {
+          const newIndex = categoryClueIndex + 1;
+          setCategoryClueIndex(newIndex);
+          setCurrentClue(categoryClues[newIndex]);
         } else {
           setAcceptGuesses(false);
           return;
         }
       } else {
-        JeopardyApi.getQuestionsForCategory(selectedCategory, (data) => {
-          setCategoryQuestions(data);
-          setCurrentQuestion(data[0]);
-        });
+        var clues = await getCluesForCategory(selectedCategory);
+        setCategoryClues(clues);
+        setCurrentClue(clues[0]);
       }
     } else {
-      JeopardyApi.getRandomQuestion((item) => setCurrentQuestion(item));
+      const clue = await getRandomClue();
+      setCurrentClue(clue);
     }
 
     //Reset UI
@@ -60,7 +63,7 @@ function GameArea() {
       return;
     }
     const guessCorrect =
-      guessText.toLowerCase() === currentQuestion?.question.toLowerCase();
+      guessText.toLowerCase() === currentClue?.question.toLowerCase();
     setHasCurGuess(true);
     setCurGuessCorrect(guessCorrect);
     setNumAttempts(numAttempts + 1);
@@ -77,11 +80,11 @@ function GameArea() {
       <CategorySelect onCategorySelect={handleCategorySelect} />
       <br />
       <br />
-      <Button title="Load Another Clue" onClick={loadQuestion} />
+      <Button title="Load Another Clue" onClick={loadClue} />
       <div
         className={
-          categoryQuestions.length > 0 &&
-          categoryQuestionIndex >= categoryQuestions.length - 1
+          categoryClues.length > 0 &&
+          categoryClueIndex >= categoryClues.length - 1
             ? ""
             : "invisible"
         }
@@ -91,11 +94,11 @@ function GameArea() {
         </p>
       </div>
       <QuestionCard
-        questionObj={currentQuestion}
+        questionObj={currentClue}
         showQuestionSide={showQuestionSide}
         setShowQuestionSide={(val) => setShowQuestionSide(val)}
       />
-      <div className={currentQuestion ? "" : "invisible"}>
+      <div className={currentClue ? "" : "invisible"}>
         {hasCurGuess ? (
           curGuessCorrect ? (
             <p className="text-green-600">Correct!</p>

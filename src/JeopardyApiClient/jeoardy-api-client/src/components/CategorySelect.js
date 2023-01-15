@@ -1,7 +1,7 @@
 import React from "react";
 import "react-select-search/style.css";
-import AsyncSelect, { useAsync } from "react-select/async";
-import JeopardyApi from "../services/JeopardyApi";
+import AsyncSelect from "react-select/async";
+import { searchCategories } from "../services/JeopardyApi";
 
 function CategorySelect({ onCategorySelect }) {
   function categoryChangeHandler(val) {
@@ -11,11 +11,10 @@ function CategorySelect({ onCategorySelect }) {
     }
   }
 
-  function loadOptions(inputValue, callback) {
-    JeopardyApi.searchCategories(inputValue, (data) => {
-      const curOptions = data.map((x) => ({ value: x, label: x }));
-      callback(curOptions);
-    });
+  async function loadOptions(inputValue, callback) {
+    const result = await searchCategories(inputValue);
+    const curOptions = result.map((x) => ({ value: x, label: x }));
+    callback(curOptions);
   }
 
   return (

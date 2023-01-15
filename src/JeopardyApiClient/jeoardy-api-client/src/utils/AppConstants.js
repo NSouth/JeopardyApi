@@ -12,7 +12,7 @@ const AppConstants = {
       [ApiAuthHeaderKey]:
         "fYybGBigRz6Xb_dkhdqliVtl8EbjN9OhbAz9lqBI6a_bAzFutiJuPw==",
     },
-    RandomQuestion: {
+    RandomClue: {
       [ApiAuthHeaderKey]:
         "c34z_bJXoRZiu1h86lLH0nPcUN6EhLJSbefu2VvqIYTDAzFujlW7sg==",
     },
